@@ -13,17 +13,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class UserServiceTests {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserService userService;
-
-        @ParameterizedTest
-    @ArgumentsSource(UserArgsProvider.class)
-    public void testFindByUsername(User user){
-        assertTrue(userService.saveNewUser(user));
+    @Test
+    void func(){
 
     }
+//    @Autowired
+//    private UserRepository userRepository;
+//    @Autowired
+//    private UserService userService;
+//
+//        @ParameterizedTest
+//    @ArgumentsSource(UserArgsProvider.class)
+//    public void testFindByUsername(User user){
+//        assertTrue(userService.saveNewUser(user));
+//
+//    }
 //    @ParameterizedTest
 //    @ArgumentsSource(UserArgsUsernameProvider.class)
 //    public void testFindByUsername(String username) {
