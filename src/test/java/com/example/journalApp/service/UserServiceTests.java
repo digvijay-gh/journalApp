@@ -13,14 +13,11 @@
 //
 //@SpringBootTest
 //public class UserServiceTests {
-//    @Test
-//    void func(){
 //
-//    }
-////    @Autowired
-////    private UserRepository userRepository;
-////    @Autowired
-////    private UserService userService;
+//    @Autowired
+//    private UserRepository userRepository;
+//    @Autowired
+//    private UserService userService;
 ////
 ////        @ParameterizedTest
 ////    @ArgumentsSource(UserArgsProvider.class)
@@ -28,10 +25,10 @@
 ////        assertTrue(userService.saveNewUser(user));
 ////
 ////    }
-////    @ParameterizedTest
-////    @ArgumentsSource(UserArgsUsernameProvider.class)
-////    public void testFindByUsername(String username) {
-////        assertTrue(userService.deleteByUserName(username));
-////
-////    }
+//    @ParameterizedTest
+//    @ArgumentsSource(UserArgsUsernameProvider.class)
+//    public void testFindByUsername(String username) {
+//        assertTrue(userService.deleteByUserName(username));
+//
+//    }
 //}
