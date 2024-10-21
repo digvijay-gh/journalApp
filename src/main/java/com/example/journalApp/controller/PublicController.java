@@ -1,6 +1,7 @@
 package com.example.journalApp.controller;
 
 import com.example.journalApp.entity.User;
+import com.example.journalApp.scheduler.UserScheduler;
 import com.example.journalApp.service.RedisService;
 import com.example.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class PublicController {
     private RedisService redisService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserScheduler userScheduler;
 
     @GetMapping("/health-check")
     public String healthCheck() {
@@ -37,5 +40,9 @@ public class PublicController {
     public void getFromRedis(@PathVariable String key, @RequestBody String value) {
         redisService.set(key, value, 100000000000l);
 
+    }
+    @GetMapping("/call-cron")
+    public void callScheduler(){
+        userScheduler.fetchAllUsersAndSentSAMail();
     }
 }

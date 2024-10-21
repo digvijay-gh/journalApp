@@ -4,12 +4,14 @@ import com.example.journalApp.cache.AppCache;
 import com.example.journalApp.entity.JournalEntry;
 import com.example.journalApp.entity.User;
 import com.example.journalApp.enums.Sentiment;
+import com.example.journalApp.model.SentimentData;
 import com.example.journalApp.repository.UserRepository;
 import com.example.journalApp.repository.UserRepositoryImpl;
 import com.example.journalApp.service.EmailService;
 import com.example.journalApp.service.SentimentAnalysisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,8 @@ public class UserScheduler {
     private EmailService emailService;
     @Autowired
     private AppCache appCache;
+    @Autowired
+    private KafkaTemplate<String, SentimentData> kafkaTemplate;
 
     @Scheduled(cron = "0 0 9 ? * SUN")
 //    @Scheduled(cron = "0 0/1 * 1/1 * ?")
@@ -40,7 +44,7 @@ public class UserScheduler {
         List<User> users = userRepository.getUserForSA();
         for (User user : users) {
             List<JournalEntry> journalEntries = user.getJournalEntries();
-            List<Sentiment> sentiments = journalEntries.stream().filter(x -> x.getDate().isAfter(LocalDateTime.now().minus(7, ChronoUnit.DAYS))).map(x -> x.getSentiment()).collect(Collectors.toList());
+            List<Sentiment> sentiments = journalEntries.stream().filter(x -> x.getDate().isAfter(LocalDateTime.now().minus(30, ChronoUnit.DAYS))).map(x -> x.getSentiment()).collect(Collectors.toList());
             Map<Sentiment, Integer> sentimentCounts = new HashMap<>();
             for (Sentiment sentiment : sentiments) {
                 if (sentiment != null) {
@@ -56,10 +60,11 @@ public class UserScheduler {
                 }
             }
             if (mostFrequent != null) {
-                emailService.sendEmail(user.getEmail(), "Sentiment for last 7 days", mostFrequent.toString());
+                SentimentData sentimentData = SentimentData.builder().email(user.getEmail()).sentiment("Sentiment for last 7 days " + mostFrequent).build();
+                kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
+                int i=1;
+//                emailService.sendEmail(user.getEmail(), "Sentiment for last 7 days", mostFrequent.toString());
             }
-
-
         }
 
     }
