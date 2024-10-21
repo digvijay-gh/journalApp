@@ -1,16 +1,16 @@
 package com.example.journalApp.service;
 
+import com.example.journalApp.scheduler.UserScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class EmailServiceTests {
+public class UserSchedulerTests {
     @Autowired
-    private EmailService emailService;
-
+    private UserScheduler userScheduler;
     @Test
-    void testSendMail(){
-        emailService.sendEmail("digvijaydsy2@gmail.com","Checking Java Mail Sender","kbfebfebfksldasbjfbeabfkaslbsfkja");
+    public void testUserAndSendMail(){
+        userScheduler.fetchAllUsersAndSentSAMail();
     }
 }
