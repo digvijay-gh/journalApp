@@ -2,7 +2,7 @@ package com.example.journalApp.controller;
 
 import com.example.journalApp.entity.User;
 import com.example.journalApp.scheduler.UserScheduler;
-import com.example.journalApp.service.RedisService;
+
 import com.example.journalApp.service.UserDetailsServiceImpl;
 import com.example.journalApp.service.UserService;
 import com.example.journalApp.utils.JwtUtil;
@@ -22,8 +22,7 @@ import java.util.List;
 public class PublicController {
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private RedisService redisService;
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
     @Autowired
@@ -57,18 +56,7 @@ public class PublicController {
         }
     }
 
-//    @GetMapping("/redis/get/{str}")
-//    public String getFromRedis(@PathVariable String str) {
-//        String s = redisService.get(str, String.class);
-//
-//        return s;
-//    }
-//
-//    @PostMapping("/redis/set/{key}")
-//    public void getFromRedis(@PathVariable String key, @RequestBody String value) {
-//        redisService.set(key, value, 100000000000l);
-//
-//    }
+
     @GetMapping("/call-cron")
     public void callScheduler(){
         userScheduler.fetchAllUsersAndSentSAMail();
