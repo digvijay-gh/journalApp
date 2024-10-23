@@ -13,10 +13,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Full clone for accurate analysis
-      - name: Set up JDK 22
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: 22
+          java-version: 21
           distribution: 'zulu'  # Using Zulu distribution for OpenJDK
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
