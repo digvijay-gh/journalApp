@@ -32,6 +32,7 @@ public class UserService {
     }
     public boolean saveNewUser(User user) {
         try{
+
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);

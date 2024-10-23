@@ -37,6 +37,7 @@ public class UserController {
         if (userInDb != null) {
             userInDb.setUsername(user.getUsername());
             userInDb.setPassword(user.getPassword());
+            if(user.getEmail()!=null)userInDb.setEmail(user.getEmail());
             userService.saveEntry(userInDb);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

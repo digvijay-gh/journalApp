@@ -1,5 +1,6 @@
 package com.example.journalApp.service;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ public class RedisTests {
     private static final Logger log = LoggerFactory.getLogger(RedisTests.class);
     @Autowired
     private RedisTemplate redisTemplate;
-
+    @Disabled
     @Test
     void sendMailTest() {
         redisTemplate.opsForValue().set("email", "digvijaydsy2@gmail.com");

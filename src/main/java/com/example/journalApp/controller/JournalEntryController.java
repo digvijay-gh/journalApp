@@ -75,8 +75,8 @@ public class JournalEntryController {
         String username = authentication.getName();
         boolean deleted = journalEntryService.deleteJournalByID(id, username);
         if (deleted)
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Deleted successfully",HttpStatus.NO_CONTENT);
+        else return new ResponseEntity<>("Not deleted",HttpStatus.NOT_FOUND);
 
     }
 
