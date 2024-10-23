@@ -1,20 +1,24 @@
 package com.example.journalApp.service;
 
 import com.example.journalApp.model.SentimentData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
+@Slf4j
 @Service
 public class SentimentConsumerService {
 
     @Autowired
     private EmailService mailService;
 
-    @KafkaListener(topics = "weekly-sentiments", groupId = "weekly-sentiment-group")
+
+    @KafkaListener(topics = "weekly-sentiments", groupId = "${spring.kafka.consumer.group-id}")
     public void consume(SentimentData sentimentData) {
+        log.info("kafka is consuming data for "+sentimentData.getEmail());
         sendEmail(sentimentData);
     }
 

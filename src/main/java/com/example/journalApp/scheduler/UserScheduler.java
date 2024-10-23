@@ -63,6 +63,7 @@ public class UserScheduler {
                 SentimentData sentimentData = SentimentData.builder().email(user.getEmail()).sentiment("Sentiment for last 7 days " + mostFrequent).build();
                 try {
                     kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
+                    log.info("Sent data to kafka for "+sentimentData.getEmail());
                 } catch (Exception e) {
                     emailService.sendEmail(sentimentData.getEmail(),  "Sentiment for previous week", sentimentData.getSentiment()+ LocalDateTime.now());
 
