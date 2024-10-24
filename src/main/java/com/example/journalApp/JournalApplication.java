@@ -12,12 +12,15 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableScheduling
 public class JournalApplication {
 
     public static void main(String[] args) {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata")); // Set timezone here
         SpringApplication.run(JournalApplication.class, args);
     }
 

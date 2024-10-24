@@ -25,6 +25,6 @@ public class SentimentConsumerService {
     }
 
     private void sendEmail(SentimentData sentimentData) {
-        mailService.sendEmail(sentimentData.getEmail(),  "Sentiment for previous week", sentimentData.getSentiment()+ " on Date: "+LocalDateTime.now().toLocalDate()+" at Time "+LocalDateTime.now().toLocalTime().truncatedTo(ChronoUnit.SECONDS));
+        mailService.sendEmail(sentimentData.getEmail(),  "Sentiment for previous week", sentimentData.getSentiment()+ " on Date: "+LocalDateTime.now().toLocalDate()+" at Time "+LocalDateTime.now().toLocalTime().truncatedTo(ChronoUnit.SECONDS) );
     }
 }
