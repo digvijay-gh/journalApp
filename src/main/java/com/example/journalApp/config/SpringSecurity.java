@@ -35,7 +35,7 @@ public class SpringSecurity {
 
         return http.authorizeHttpRequests(request -> request
 //                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**","/user/login","/user/signup").permitAll()
                         .requestMatchers("/journal/**","/user/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 //                        .requestMatchers("/admin/**").hasRole("ADMIN")

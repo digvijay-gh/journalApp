@@ -36,37 +36,12 @@ public class PublicController {
     @Autowired
     private JwtUtil jwtUtil;
 
+
     @Operation(summary = "Check if API is running")
     @GetMapping("/health-check")
     public String healthCheck() {
         return "Ok";
     }
 
-    @Operation(summary = "User can sign up")
-    @PostMapping("/signup")
-    public void createUser(@RequestBody UserSignUpDTO newUser) {
-        User user =new User(newUser);
-        userService.saveNewUser(user);
-    }
-    @Operation(summary = "User logs in")
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginDTO inputUser) {
-        User user =new User(inputUser);
-        try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-            String jwt = jwtUtil.generateToken(userDetails.getUsername());
-            return new ResponseEntity<>(jwt, HttpStatus.OK);
-        }catch (Exception e){
-            log.error("Exception occurred while createAuthenticationToken ", e);
-            return new ResponseEntity<>("Incorrect username or password", HttpStatus.BAD_REQUEST);
-        }
-    }
 
-    @Operation(summary = "Let's irritate everyone by sending mail(uses kafka)")
-    @GetMapping("/call-cron")
-    public void callScheduler(){
-        userScheduler.fetchAllUsersAndSentSAMail();
-    }
 }
