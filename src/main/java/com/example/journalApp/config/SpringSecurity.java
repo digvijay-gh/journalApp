@@ -33,10 +33,9 @@ public class SpringSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 
-        return http.
-
-                authorizeHttpRequests(request -> request
+        return http.authorizeHttpRequests(request -> request
 //                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/journal/**","/user/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 //                        .requestMatchers("/admin/**").hasRole("ADMIN")

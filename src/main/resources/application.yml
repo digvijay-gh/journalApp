@@ -48,3 +48,6 @@ spring:
       session:
         timeout:
           ms: 45000
+springdoc:
+  swagger-ui:
+    path: /docs

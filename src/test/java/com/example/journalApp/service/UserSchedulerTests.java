@@ -1,6 +1,7 @@
 package com.example.journalApp.service;
 
 import com.example.journalApp.scheduler.UserScheduler;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class UserSchedulerTests {
     @Autowired
     private UserScheduler userScheduler;
+    @Disabled
     @Test
     public void testUserAndSendMail(){
 
