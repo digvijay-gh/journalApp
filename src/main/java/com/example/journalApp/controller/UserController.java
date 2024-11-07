@@ -71,29 +71,36 @@ public class UserController {
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody UserSignUpDTO userSignUpDTO) {
 
-        User user = new User(userSignUpDTO);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User userInDb = userService.findByUsername(username);
-        if (userInDb != null) {
-            userInDb.setUsername(user.getUsername());
-            userInDb.setPassword(passwordEncoder.encode(user.getPassword()));
-            if (user.getEmail() != null) userInDb.setEmail(user.getEmail());
-            userInDb.setSentimentAnalysis(user.isSentimentAnalysis());
-            userService.saveEntry(userInDb);
+        try {
+            User user = new User(userSignUpDTO);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User userInDb = userService.findByUsername(username);
+            if (userInDb != null) {
+                userInDb.setUsername(user.getUsername());
+                userInDb.setPassword(passwordEncoder.encode(user.getPassword()));
+                if (user.getEmail() != null) userInDb.setEmail(user.getEmail());
+                userInDb.setSentimentAnalysis(user.isSentimentAnalysis());
+                userService.saveEntry(userInDb);
 
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Operation(summary = "Delete a User")
     @DeleteMapping
     public ResponseEntity<?> deleteUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        userRepository.deleteByUsername(username);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            userRepository.deleteByUsername(username);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
     @Operation(summary = "Greet the User")
