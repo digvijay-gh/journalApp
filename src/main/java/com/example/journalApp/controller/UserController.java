@@ -4,6 +4,7 @@ import com.example.journalApp.api.response.WeatherResponse;
 import com.example.journalApp.dto.UserDTO;
 import com.example.journalApp.dto.UserLoginDTO;
 import com.example.journalApp.dto.UserSignUpDTO;
+import com.example.journalApp.dto.UserUpdateDTO;
 import com.example.journalApp.entity.User;
 import com.example.journalApp.repository.UserRepository;
 import com.example.journalApp.service.UserService;
@@ -67,13 +68,14 @@ public class UserController {
             return new ResponseEntity<>("Incorrect username or password", HttpStatus.BAD_REQUEST);
         }
     }
+
     @Operation(summary = "Get user details")
     @GetMapping
-    public ResponseEntity<?> getUserDetails(){
+    public ResponseEntity<?> getUserDetails() {
         try {
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = userService.findByUsername(name);
-            return new ResponseEntity<>(new UserDTO(user),HttpStatus.OK);
+            return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -83,23 +85,24 @@ public class UserController {
 
     @Operation(summary = "Update a User")
     @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody UserSignUpDTO userSignUpDTO) {
-
+    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDTO user) {
         try {
-            User user = new User(userSignUpDTO);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             User userInDb = userService.findByUsername(username);
             if (userInDb != null) {
-                userInDb.setUsername(user.getUsername());
-                userInDb.setPassword(passwordEncoder.encode(user.getPassword()));
-                if (user.getEmail() != null) userInDb.setEmail(user.getEmail());
+                if (user.getUsername() != null && !user.getUsername().isEmpty())
+                    userInDb.setUsername(user.getUsername());
+                if (user.getPassword() != null && !user.getPassword().isEmpty())
+                    userInDb.setPassword(passwordEncoder.encode(user.getPassword()));
+                if (user.getEmail() != null && !user.getEmail().isEmpty())
+                    userInDb.setEmail(user.getEmail());
                 userInDb.setSentimentAnalysis(user.isSentimentAnalysis());
                 userService.saveEntry(userInDb);
-
             }
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            log.error("Error while updating user: ", e);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
@@ -113,6 +116,7 @@ public class UserController {
             userRepository.deleteByUsername(username);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            log.error("Error while deleting user: ", e);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
