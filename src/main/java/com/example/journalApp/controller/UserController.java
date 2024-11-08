@@ -1,6 +1,7 @@
 package com.example.journalApp.controller;
 
 import com.example.journalApp.api.response.WeatherResponse;
+import com.example.journalApp.dto.UserDTO;
 import com.example.journalApp.dto.UserLoginDTO;
 import com.example.journalApp.dto.UserSignUpDTO;
 import com.example.journalApp.entity.User;
@@ -65,6 +66,19 @@ public class UserController {
             log.error("Exception occurred while createAuthenticationToken ", e);
             return new ResponseEntity<>("Incorrect username or password", HttpStatus.BAD_REQUEST);
         }
+    }
+    @Operation(summary = "Get user details")
+    @GetMapping
+    public ResponseEntity<?> getUserDetails(){
+        try {
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userService.findByUsername(name);
+            return new ResponseEntity<>(new UserDTO(user),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+
     }
 
     @Operation(summary = "Update a User")
